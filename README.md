@@ -1,6 +1,7 @@
 # TakeOff
 A web application which allows users to view and bookmark various flights. 
 
+Homepage inspiration from Flightradar24.com:
 ![Flightradar24.com Homepage](Flightradar24.png)
 # How to run
 Provide here instructions on how to use your application.   
