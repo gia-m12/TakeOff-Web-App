@@ -1,8 +1,7 @@
-# Project Name
-Put here a short paragraph describing your project. 
-Adding an screenshot or a mockup of your application in action would be nice.  
+# TakeOff
+A web application which allows users to view and bookmark various flights. 
 
-![This is a screenshot.](images.png)
+![Flightradar24.com Homepage](Flightradar24.png)
 # How to run
 Provide here instructions on how to use your application.   
 - Download the latest binary from the Release section on the right on GitHub.  
