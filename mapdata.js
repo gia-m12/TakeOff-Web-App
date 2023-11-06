@@ -1598,5 +1598,16 @@ var simplemaps_worldmap_mapdata={
       size: "default"
     }
   },
+  lines: {
+    "1": {
+      name: "Atlantic",
+      origin_location: "3",
+      destination_location: "0",
+      color: "#000000",
+      angle: 45,
+      size: 2,
+      dash: ""
+    }
+  },
   labels: {}
 };
