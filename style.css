@@ -28,6 +28,7 @@ body {
     margin: 0 auto;
     position: relative;
     overflow: hidden;
+    justify-content: center;
 }
 
 #world-map {
