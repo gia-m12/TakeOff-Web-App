@@ -21,6 +21,15 @@
 
     <div id="map"></div>
 
+    <div class="filters">
+        <label for="filter-dropdown">Filter by:</label>
+        <select id="filter-dropdown">
+          <option value="category1">Duration</option>
+          <option value="category2">Location</option>
+          <option value="category3">Destination</option>
+        </select>
+    </div>
+
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('loginModal')">&times;</span>
@@ -46,6 +55,7 @@
             </form>
         </div>
     </div>
+
 
     <script>
         function openModal(modalId) {
