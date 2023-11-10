@@ -14,3 +14,4 @@ As the project progress, this will be updated. For now, simply launch [TakeOff-W
 Follow this project board to know the latest status of the project: [Project Board]([https://github.com/orgs/cis3296f23/projects/130/views/1])
 
 # How to build 
+This project can be built by downloading the git repository and opening index.html using any common web-browser such as Chrome/Safari/Firefox/Microsoft Edge.
