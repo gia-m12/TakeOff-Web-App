@@ -61,7 +61,6 @@ if airline_response.status_code == 200:
      airline_data = airline_data.get('response', {})
      for data in airline_data:
          if data['iata_code'] != None and data['icao_code'] != None and data['name'] in names:
-            print(data['name'])
             airlines['iata_codes'].append(data['iata_code'])
             airlines['icao_codes'].append(data['icao_code'])
 else:
