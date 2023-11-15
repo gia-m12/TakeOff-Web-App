@@ -4,12 +4,12 @@ if ("geolocation" in navigator) {
         var lat = position.coords.latitude;
         var lng = position.coords.longitude;
 
-        alert("Your current location is:\nLatituted: " + lat 
+        console.log("Your current location is:\nLatituted: " + lat 
             + "\nLongitude: " + lng);
     }, function(error) {
-        alert("Error getting location: " + error.message);
+        console.log("Error getting location: " + error.message);
     });
 } else {
     // Geolocation is not available in this browser
-    alert("Geolocation is not supported in your browser.");
+    console.log("Geolocation is not supported in your browser.");
 }

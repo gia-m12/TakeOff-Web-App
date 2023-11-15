@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 
 app = Flask(__name__)
 
@@ -16,18 +16,21 @@ def login():
 
         # Dummy response for demonstration
         if username == 'john_doe' and hashed_password == '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8':
-            response = jsonify({'success': True, 'message': 'Login successful'})
-            response.headers.add('Allow', 'POST')  # Add Allow header for POST method
-            return response
+            response_data = {'success': True, 'message': 'Login successful'}
+            status_code = 200
         else:
-            response = jsonify({'success': False, 'message': 'Login failed'})
-            response.headers.add('Allow', 'POST')  # Add Allow header for POST method
-            return response, 401
+            response_data = {'success': False, 'message': 'Login failed'}
+            status_code = 401
+
+        response = jsonify(response_data)
+        response.headers['Allow'] = 'POST'  # Set Allow header for POST method
+        return make_response(response, status_code)
     else:
         # Handle other methods (e.g., if someone tries a different method for /login)
-        response = jsonify({'message': 'Method Not Allowed'})
-        response.headers.add('Allow', 'POST')  # Add Allow header for POST method
-        return response, 405
+        response_data = {'message': 'Method Not Allowed'}
+        response = jsonify(response_data)
+        response.headers['Allow'] = 'POST'  # Set Allow header for POST method
+        return make_response(response, 405)
 
 
 if __name__ == '__main__':
