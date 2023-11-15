@@ -64,8 +64,13 @@ if airline_response.status_code == 200:
             print(data['name'])
             airlines['iata_codes'].append(data['iata_code'])
             airlines['icao_codes'].append(data['icao_code'])
+else:
+    print("API request failed with status code:", airline_response.status_code)
 
-
+flights = {
+    'flight_iata': [],
+    'flight_icao': []
+}
 for i in range(len(names)):
     route_params = {
         'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
@@ -76,4 +81,17 @@ for i in range(len(names)):
         'airline_icao': airlines['icao_codes'][i],
         'airline_iata': airlines['iata_codes'][i]
     }
+    route_response = requests.get('https://airlabs.co/api/v9/routes', params=route_params)
+    if route_response.status_code == 200:
+        route_data = route_response.json()
+        route_data = route_data.get('response', {})
+        for data in route_data:
+            print("Depature Time: ", data['dep_time'])
+            print("Arrival Time: ", data['arr_time'])
+            print("Duration: ", data['duration'], " minutes")
+            flights['flight_iata'].append(data['flight_iata'])
+            flights['flight_icao'].append(data['flight_icao'])
+
+    else:
+        print("API request failed with status code:", route_response.status_code)
 
