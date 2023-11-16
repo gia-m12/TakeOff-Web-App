@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, make_response
-
+from flask_cors import CORS  # Import the CORS module
 app = Flask(__name__)
-
+CORS(app)  # Enable CORS for all routes or specify origins with CORS(app, origins="*") for all origins
 
 # Handle POST request to '/login'
 @app.route('/login', methods=['POST'])

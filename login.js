@@ -3,12 +3,12 @@ function validateLogin() {
   const password = document.getElementById("password").value;
   const hashedPassword = CryptoJS.SHA256(password).toString();
 
-  fetch("/login", {
+  fetch('http://localhost:5000/login', {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;",
     },
-    body: JSON.stringify({ username, hashedPassword }),
+    body: JSON.stringify({ "username": username, "hashedPassword": hashedPassword }),
   })
     .then((response) => {
       if (response.status === 401) {
@@ -18,6 +18,7 @@ function validateLogin() {
       }
       return response.json();
     })
+    .then(json =>console.log(json))
     .then((data) => {
       // Handle response from the server
       if (data.success) {
