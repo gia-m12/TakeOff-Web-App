@@ -1,48 +1,67 @@
-import requests
 import json
+from flask import Flask, request, jsonify
+import requests
+
+app = Flask(__name__)
+
+@app.route('/get_coordinates', methods=['POST'])
+def get_coordinates():
+    data = request.get_json()
+    lat = data['lat']
+    lng = data['lng']
+    origin_airport = origin (lat, lng)
+
+    return jsonify({'message': 'Data processed'})
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 #first get airports nearby your location
-origin_params = {
-    'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
-    'lat': '40.099941',
-    'lng': '-74.97579',
-    'distance': '50'
-}
-origin_url = 'https://airlabs.co/api/v9/nearby'
-origin_response = requests.get(origin_url, params=origin_params)
-origin_airport = []
-if origin_response.status_code == 200:
-    origin_data = origin_response.json()
-    airports = origin_data.get('response', {}).get('airports', [])
-    origin_airport = airports[0]
-    for airport in airports:
-        if(airport.get("iata_code") != None):
-            if origin_airport.get("popularity") < airport.get("popularity"):
-                origin_airport = airport
-else:
-    print("API request failed with status code:", origin_response.status_code)
+def origin (lat, lng):
+    origin_params = {
+        'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
+        'lat': lat,
+        'lng': lng,
+        'distance': '50'
+    }
+    origin_url = 'https://airlabs.co/api/v9/nearby'
+    origin_response = requests.get(origin_url, params=origin_params)
+    origin_airport = []
+    if origin_response.status_code == 200:
+        origin_data = origin_response.json()
+        airports = origin_data.get('response', {}).get('airports', [])
+        origin_airport = airports[0]
+        for airport in airports:
+            if(airport.get("iata_code") != None):
+                if origin_airport.get("popularity") < airport.get("popularity"):
+                    origin_airport = airport
+    else:
+        print("API request failed with status code:", origin_response.status_code)
+    return origin_airport
+
 #get destination airports
-des_params = {
-    'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
-    'lat': '28.476224089314087',
-    'lng': '-81.46854344694752',
-    'distance': '50'
-}
-des_url = 'https://airlabs.co/api/v9/nearby'
-des_response = requests.get(des_url, params=des_params)
+def des (lat, lng):
+    des_params = {
+        'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
+        'lat': lat,
+        'lng': lng,
+        'distance': '50'
+    }
+    des_url = 'https://airlabs.co/api/v9/nearby'
+    des_response = requests.get(des_url, params=des_params)
 
-if des_response.status_code == 200:
-    des_airports = []
-    des_data = des_response.json()
-    airports = des_data.get('response', {}).get('airports', [])
-    des_airport = airports[0]
-    for airport in airports:
-        if(airport.get("iata_code") != None):
-            if des_airport.get("popularity") < airport.get("popularity"):
-                des_airport = airport
-else:
-    print("API request failed with status code:", des_response.status_code)
-
+    if des_response.status_code == 200:
+        des_airports = []
+        des_data = des_response.json()
+        airports = des_data.get('response', {}).get('airports', [])
+        des_airport = airports[0]
+        for airport in airports:
+            if(airport.get("iata_code") != None):
+                if des_airport.get("popularity") < airport.get("popularity"):
+                    des_airport = airport
+    else:
+        print("API request failed with status code:", des_response.status_code)
+    return des_airport
 
 airline_params = {
     'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
