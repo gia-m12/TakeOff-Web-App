@@ -10,6 +10,8 @@ def get_coordinates():
     lat = data['lat']
     lng = data['lng']
     origin_airport = origin (lat, lng)
+    print(origin_airport)
+    des_airport = des('28.53.8336', '-81.379234')
 
     return jsonify({'message': 'Data processed'})
 
@@ -68,48 +70,51 @@ airline_params = {
     'country_code': 'US'
     
 }
-airlines = {
-    'iata_codes': [],
-    'icao_codes': []
-}
-#5 most common airlines used in US
-names = ["American Airlines", "Southwest Airlines", "Spirit Airlines", "Delta Air Lines", "United Airlines"]
-airline_response = requests.get('https://airlabs.co/api/v9/airlines', params=airline_params)
-if airline_response.status_code == 200:
-     airline_data = airline_response.json()
-     airline_data = airline_data.get('response', {})
-     for data in airline_data:
-         if data['iata_code'] != None and data['icao_code'] != None and data['name'] in names:
-            airlines['iata_codes'].append(data['iata_code'])
-            airlines['icao_codes'].append(data['icao_code'])
-else:
-    print("API request failed with status code:", airline_response.status_code)
-
-flights = {
-    'flight_iata': [],
-    'flight_icao': []
-}
-for i in range(len(names)):
-    route_params = {
-        'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
-        'dep_iata': origin_airport.get('iata_code'),
-        'dep_icao': origin_airport.get('icao_code'),
-        'arr_iata': des_airport.get("iata_code"),
-        'arr_icao': des_airport.get("icao_code"),
-        'airline_icao': airlines['icao_codes'][i],
-        'airline_iata': airlines['iata_codes'][i]
+def get_airlines():
+    airlines = {
+        'iata_codes': [],
+        'icao_codes': []
     }
-    route_response = requests.get('https://airlabs.co/api/v9/routes', params=route_params)
-    if route_response.status_code == 200:
-        route_data = route_response.json()
-        route_data = route_data.get('response', {})
-        for data in route_data:
-            print("Depature Time: ", data['dep_time'])
-            print("Arrival Time: ", data['arr_time'])
-            print("Duration: ", data['duration'], " minutes")
-            flights['flight_iata'].append(data['flight_iata'])
-            flights['flight_icao'].append(data['flight_icao'])
-
+    #5 most common airlines used in US
+    names = ["American Airlines", "Southwest Airlines", "Spirit Airlines", "Delta Air Lines", "United Airlines"]
+    airline_response = requests.get('https://airlabs.co/api/v9/airlines', params=airline_params)
+    if airline_response.status_code == 200:
+        airline_data = airline_response.json()
+        airline_data = airline_data.get('response', {})
+        for data in airline_data:
+            if data['iata_code'] != None and data['icao_code'] != None and data['name'] in names:
+                airlines['iata_codes'].append(data['iata_code'])
+                airlines['icao_codes'].append(data['icao_code'])
     else:
-        print("API request failed with status code:", route_response.status_code)
+        print("API request failed with status code:", airline_response.status_code)
+    return airlines
+
+def get_routes(origin_airport, des_airport, airlines):
+    flights = {
+        'flight_iata': [],
+        'flight_icao': []
+    }
+    for i in range(len(names)):
+        route_params = {
+            'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
+            'dep_iata': origin_airport.get('iata_code'),
+            'dep_icao': origin_airport.get('icao_code'),
+            'arr_iata': des_airport.get("iata_code"),
+            'arr_icao': des_airport.get("icao_code"),
+            'airline_icao': airlines['icao_codes'][i],
+            'airline_iata': airlines['iata_codes'][i]
+        }
+        route_response = requests.get('https://airlabs.co/api/v9/routes', params=route_params)
+        if route_response.status_code == 200:
+            route_data = route_response.json()
+            route_data = route_data.get('response', {})
+            for data in route_data:
+                print("Depature Time: ", data['dep_time'])
+                print("Arrival Time: ", data['arr_time'])
+                print("Duration: ", data['duration'], " minutes")
+                flights['flight_iata'].append(data['flight_iata'])
+                flights['flight_icao'].append(data['flight_icao'])
+
+        else:
+            print("API request failed with status code:", route_response.status_code)
 
