@@ -6,7 +6,6 @@ if (navigator.geolocation) {
     console.log("Geolocation is not supported in your browser.");
 }
 
-
 function sendPosition(position) {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
@@ -17,10 +16,19 @@ function sendPosition(position) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ lat, lng }),
+        body: JSON.stringify({ "lat": lat, "lng": lng }),
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+        return response.json(); // Parse the JSON in the response
+    })
+    .then(data => {
+        // Handle the data received from the backend
+        console.log('Response from server:', data);
+        // You can do more with the data here if needed
+    })
     .catch((error) => {
         console.error('Error:', error);
     });
