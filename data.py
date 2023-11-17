@@ -121,7 +121,10 @@ def get_coordinates():
     lng = data['lng']
     origin_airport = origin(lat, lng)
     print(origin_airport)
-    des_airport = des('28.53.8336', '-81.379234')
+    des_airport = des('28.538336', '-81.379234')
+    print(des_airport)
+    airlines = get_airlines()
+    get_routes(origin_airport, des_airport, airlines)
     return jsonify({
         'origin_airport': origin_airport,
         'des_airport': des_airport,
