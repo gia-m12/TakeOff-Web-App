@@ -1,4 +1,5 @@
-/* styles.css */
+/* style.css */
+
 body {
     margin: 0;
     padding: 0;
@@ -8,9 +9,9 @@ body {
 
 #header {
     background-color: #333;
-    color: #333;
-    padding: 20px;
-    text-align: right;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
 }
 
 #login-section {
@@ -18,17 +19,56 @@ body {
     top: 20px;
     right: 20px;
     background-color: #fff;
-    padding: 20px;
+    padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+#login-section h3 {
+    font-size: 20px;
+    margin: 5px; 
+}
+
+#login-section h3 a {
+    text-decoration: none;
+    color: #333;
+    position: relative;
+    transition: color 0.3s;
+}
+
+#login-section h3 a:hover {
+    color: #555;
+}
+
+#login-section h3 a::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all 0.3s ease-in-out;
+}
+
+#login-section h3 a:hover::before {
+    visibility: visible;
+    transform: scaleX(1);
+}
+
 #map {
     width: 80%;
-    margin: 0 auto;
+    margin: 20px auto;
     position: relative;
     overflow: hidden;
+    display: flex;
     justify-content: center;
+}
+
+#airport-info p {
+    margin-left: 10px;
 }
 
 #world-map {
@@ -53,7 +93,8 @@ body {
     margin: 10% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 60%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .close {
@@ -73,16 +114,44 @@ body {
 .filters {
     display: flex;
     align-items: center;
+    margin: 20px;
+    width: fit-content;
 }
-  
+
 label {
     margin-right: 10px;
 }
-  
+
 select {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #fff;
     cursor: pointer;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #555;
 }
