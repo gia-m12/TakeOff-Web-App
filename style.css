@@ -67,6 +67,10 @@ body {
     justify-content: center;
 }
 
+#airport-info p {
+    margin-left: 10px;
+}
+
 #world-map {
     width: 100%;
     height: auto;
