@@ -27,9 +27,16 @@ function sendPosition(position) {
     .then(data => {
         // Handle the data received from the backend
         console.log('Response from server:', data);
+        updateAirportInfo(data);
         // You can do more with the data here if needed
     })
     .catch((error) => {
         console.error('Error:', error);
     });
+}
+function updateAirportInfo(data) {
+    if (data.origin_airport && data.des_airport) {
+        document.getElementById('origin-airport-name').innerText = data.origin_airport.name;
+        document.getElementById('destination-airport-name').innerText = data.des_airport.name;
+    }
 }
