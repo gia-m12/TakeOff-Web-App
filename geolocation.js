@@ -11,7 +11,7 @@ function sendPosition(position) {
     const lng = position.coords.longitude;
 
     // Send this data to your Python backend
-    fetch('http://localhost:5000/get_coordinates', {
+    fetch('http://localhost:5001/get_coordinates', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
