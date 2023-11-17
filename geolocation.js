@@ -1,12 +1,11 @@
 // Check if the Geolocation API is available in the browser
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(sendPosition);
-    } else {
-        // Geolocation is not available in this browser
-        console.log("Geolocation is not supported in your browser.");
-    }
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(sendPosition);
+} else {
+    // Geolocation is not available in this browser
+    console.log("Geolocation is not supported in your browser.");
 }
+
 
 function sendPosition(position) {
     const lat = position.coords.latitude;
