@@ -117,11 +117,9 @@ def get_coordinates():
     lat = data['lat']
     lng = data['lng']
     origin_airport = origin(lat, lng)
-    print(origin_airport)
     location = geocoder.osm(data['address'])
     lat, long = location.lat, location.lng
     des_airport = des(lat, long)
-    print(des_airport)
     airlines = get_airlines()
     get_routes(origin_airport, des_airport, airlines)
     return jsonify({
