@@ -1,5 +1,5 @@
 import json
-
+import geocoder
 import requests
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS  # Import the CORS module
@@ -104,9 +104,6 @@ def get_routes(origin_airport, des_airport, airlines):
             route_data = route_response.json()
             route_data = route_data.get('response', {})
             for data in route_data:
-                print("Depature Time: ", data['dep_time'])
-                print("Arrival Time: ", data['arr_time'])
-                print("Duration: ", data['duration'], " minutes")
                 flights['flight_iata'].append(data['flight_iata'])
                 flights['flight_icao'].append(data['flight_icao'])
 
@@ -121,7 +118,9 @@ def get_coordinates():
     lng = data['lng']
     origin_airport = origin(lat, lng)
     print(origin_airport)
-    des_airport = des('28.538336', '-81.379234')
+    location = geocoder.osm(data['address'])
+    lat, long = location.lat, location.lng
+    des_airport = des(lat, long)
     print(des_airport)
     airlines = get_airlines()
     get_routes(origin_airport, des_airport, airlines)
