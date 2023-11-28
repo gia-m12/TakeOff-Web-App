@@ -9,6 +9,7 @@ if (navigator.geolocation) {
 function sendPosition(position) {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
+    const address = "Rome, Italy";
 
     // Send this data to your Python backend
     fetch('http://localhost:5001/get_coordinates', {
@@ -16,7 +17,7 @@ function sendPosition(position) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ "lat": lat, "lng": lng }),
+        body: JSON.stringify({ "lat": lat, "lng": lng, "address": address}),
     })
     .then(response => {
         if (!response.ok) {
