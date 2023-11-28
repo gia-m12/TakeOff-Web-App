@@ -35,4 +35,4 @@ def login():
 
 if __name__ == '__main__':
     print("Running")
-    app.run(debug=True)  # Run the app
+    app.run(debug=True, port=5000)  # Run the app
