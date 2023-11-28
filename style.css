@@ -111,6 +111,13 @@ body {
     cursor: pointer;
 }
 
+.user-destination {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    width: fit-content;
+}
+
 .filters {
     display: flex;
     align-items: center;
