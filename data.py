@@ -66,17 +66,18 @@ airline_params = {
 
 def get_airlines():
     airlines = {
+         # 5 most common airlines used in US
+        'names': ["American Airlines", "Southwest Airlines", "Spirit Airlines", "Delta Air Lines", "United Airlines"],
         'iata_codes': [],
         'icao_codes': []
     }
-    # 5 most common airlines used in US
-    names = ["American Airlines", "Southwest Airlines", "Spirit Airlines", "Delta Air Lines", "United Airlines"]
+   
     airline_response = requests.get('https://airlabs.co/api/v9/airlines', params=airline_params)
     if airline_response.status_code == 200:
         airline_data = airline_response.json()
         airline_data = airline_data.get('response', {})
         for data in airline_data:
-            if data['iata_code'] != None and data['icao_code'] != None and data['name'] in names:
+            if data['iata_code'] != None and data['icao_code'] != None and data['name'] in airlines['names']:
                 airlines['iata_codes'].append(data['iata_code'])
                 airlines['icao_codes'].append(data['icao_code'])
     else:
@@ -85,10 +86,6 @@ def get_airlines():
 
 
 def get_routes(origin_airport, des_airport, airlines):
-    flights = {
-        'flight_iata': [],
-        'flight_icao': []
-    }
     for i in range(5):
         route_params = {
             'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
@@ -100,17 +97,22 @@ def get_routes(origin_airport, des_airport, airlines):
             'airline_iata': airlines['iata_codes'][i]
         }
         route_response = requests.get('https://airlabs.co/api/v9/routes', params=route_params)
+        times = {}
         if route_response.status_code == 200:
             route_data = route_response.json()
             route_data = route_data.get('response', {})
+            if route_data:
+                shortest = route_data[0]['duration']
+                day = ""
             for data in route_data:
-                flights['flight_iata'].append(data['flight_iata'])
-                flights['flight_icao'].append(data['flight_icao'])
-
+                if data['duration'] < shortest:
+                    shortest = data['duration']
+                    day = data['days'][0]
         else:
             print("API request failed with status code:", route_response.status_code)
-
-
+        times[airlines['names'][i]] = [day, shortest]
+    return times
+    
 @app.route('/get_coordinates', methods=['POST'])
 def get_coordinates():
     data = request.get_json()
@@ -121,10 +123,16 @@ def get_coordinates():
     lat, long = location.lat, location.lng
     des_airport = des(lat, long)
     airlines = get_airlines()
-    get_routes(origin_airport, des_airport, airlines)
+    info = get_routes(origin_airport, des_airport, airlines)
+    print(info)
     return jsonify({
         'origin_airport': origin_airport,
         'des_airport': des_airport,
+        'aa': info.get('American Airlines', {}),
+        'sw': info.get('Southwest Airlines', {}),
+        'sp': info.get('Spirit Airlines', {}),
+        'da': info.get('Delta Air Lines', {}),
+        'ua': info.get('United Airlines', {}),
         'message': 'Data processed'
     })
 
