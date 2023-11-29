@@ -86,6 +86,7 @@ def get_airlines():
 
 
 def get_routes(origin_airport, des_airport, airlines):
+    times = {}
     for i in range(5):
         route_params = {
             'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
@@ -97,7 +98,6 @@ def get_routes(origin_airport, des_airport, airlines):
             'airline_iata': airlines['iata_codes'][i]
         }
         route_response = requests.get('https://airlabs.co/api/v9/routes', params=route_params)
-        times = {}
         if route_response.status_code == 200:
             route_data = route_response.json()
             route_data = route_data.get('response', {})
@@ -124,7 +124,11 @@ def get_coordinates():
     des_airport = des(lat, long)
     airlines = get_airlines()
     info = get_routes(origin_airport, des_airport, airlines)
-    print(info)
+    print(info.get('American Airlines', {}))
+    print(info.get('Southwest Airlines', {}))
+    print(info.get('Spirit Airlines', {}))
+    print(info.get('Delta Air Lines', {}))
+    print(info.get('United Airlines', {}))
     return jsonify({
         'origin_airport': origin_airport,
         'des_airport': des_airport,
