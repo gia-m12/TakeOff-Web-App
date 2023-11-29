@@ -1573,41 +1573,42 @@ var simplemaps_worldmap_mapdata={
   },
   locations: {
     "0": {
-      name: "Paris",
-      lat: "48.866666670",
-      lng: "2.333333333",
-      color: "default",
-      description: "default",
-      url: "default"
+      name: "",
+      lat: "",
+      lng: "",
+      color: "blue",
+      description: "",
+      url: "",
+      hide: "yes"
     },
     "1": {
-      name: "Tokyo",
-      lat: "35.666666670",
-      lng: "139.750000000",
-      color: "default",
-      description: "default",
-      url: "default"
-    },
-    "3": {
-      name: "New York",
-      lat: "40.71",
-      lng: "-74.0059731",
-      description: "default",
-      color: "default",
-      url: "default",
-      size: "default"
-    }
-  },
-  lines: {
-    "1": {
-      name: "Atlantic",
-      origin_location: "3",
-      destination_location: "0",
-      color: "#000000",
-      angle: 45,
-      size: 2,
-      dash: ""
+      name: "",
+      lat: "",
+      lng: "",
+      color: "green",
+      description: "",
+      url: "",
+      hide: "yes"
     }
   },
   labels: {}
 };
+
+function updateMap(orig, dest) {
+  orig_display = simplemaps_worldmap_mapdata.locations[0];
+  dest_display = simplemaps_worldmap_mapdata.locations[1];
+
+  // Map display attributes for origin airport
+  orig_display.name = orig.name;
+  orig_display.lat = orig.lat;
+  orig_display.lng = orig.lng;
+  orig_display.hide = "no";
+
+  // Map display attributes for destination airport
+  dest_display.name = dest.name;
+  dest_display.lat = dest.lat;
+  dest_display.lng = dest.lng;
+  dest_display.hide = "no";
+
+  simplemaps_worldmap.refresh();
+}
