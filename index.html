@@ -41,18 +41,9 @@
     </div>
     
     <div class="user-destination">
-        <label for="user-destination-input">Destination:</label>
-        <input type="text" id="user-destination-input">
-        <button onclick="getUserDestination()">Go</button>
-    </div>
-
-    <div class="filters">
-        <label for="filter-dropdown">Filter by:</label>
-        <select id="filter-dropdown" class="form-control">
-          <option value="category1">Duration</option>
-          <option value="category2">Location</option>
-          <option value="category3">Destination</option>
-        </select>
+        <label for="user-destination-input" class="mr-2">Destination:</label>
+        <input type="text" id="user-destination-input" class="form-control mr-2">
+        <button onclick="getUserDestination()" class="btn btn-primary">Go</button>
     </div>
 
     <div id="loginModal" class="modal">
