@@ -8,11 +8,15 @@ var locationInfo = {
 
 // Get user origin
 if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(updateUserOrigin);
+    navigator.geolocation.getCurrentPosition(updateUserOrigin, handleError);
 } else {
-    // Check if browser supports Geolocation API
-    console.log("Geolocation is not supported in your browser.");
+    console.log("Geolocation is not supported by your browser.");
 }
+
+function handleError(error) {
+    console.warn(`ERROR(${error.code}): ${error.message}`);
+}
+
 
 function updateUserOrigin(position) {
     locationInfo.lat = position.coords.latitude;
@@ -23,7 +27,7 @@ function updateUserOrigin(position) {
 function getUserDestination() {
     locationInfo.addr = document.getElementById("user-destination-input").value;
 
-    if (locationInfo.lat != null && locationInfo.lng != null) {
+    if (locationInfo.lat != null && locationInfo.lng != null && locationInfo.addr != null) {
         sendLocationInfo();
     }
 }
