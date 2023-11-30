@@ -11,7 +11,8 @@ function validateLogin() {
     body: JSON.stringify({ "username": username, "hashedPassword": hashedPassword }),
   })
     .then((response) => {
-      if (response.status === 401) {
+      console.log(response.json())
+      if (response.status_code === 401) {
         throw new Error("Unauthorized");
       } else if (!response.ok) {
         throw new Error("Login failed");

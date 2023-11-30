@@ -1,21 +1,39 @@
 from flask import Flask, request, jsonify, make_response
+import cx_Oracle
 from flask_cors import CORS  # Import the CORS module
+
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes or specify origins with CORS(app, origins="*") for all origins
 
-# Handle POST request to '/login'
+# Establish cx_Oracle connection to Oracle database
+dsn_tns = cx_Oracle.makedsn('localhost', '11521', service_name='cisora.cis.temple.edu')
+username = 'sp23_4331_tug62328'
+password = 'aizihoo7In'
+# print("Test")
+try:
+    oracle_connection = cx_Oracle.connect(user=username, password=password, dsn=dsn_tns)
+    print("Inside Try-B")
+    oracle_cursor = oracle_connection.cursor()
+    print("Oracle DB Connection Successful")
+except cx_Oracle.DatabaseError as e:
+    error, = e.args
+    print("Oracle DB Error:", error.message)
+
+
 @app.route('/login', methods=['POST'])
 def login():
+    # print("login")
     if request.method == 'POST':
         data = request.get_json()  # Get the JSON data from the request
         username = data.get('username')
-        hashed_password = data.get('hashedPassword')
+        password_hash = data.get('hashedPassword')
 
-        # Here, you would typically handle authentication logic
-        # For example, check credentials against a database
+        # Authenticate user against the user_accounts table
+        query = "SELECT * FROM user_accounts WHERE username = :uname AND password_hash = :hashed_pwd"
+        oracle_cursor.execute(query, uname=username, hashed_pwd=password_hash)
+        user = oracle_cursor.fetchone()
 
-        # Dummy response for demonstration
-        if username == 'john_doe' and hashed_password == '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8':
+        if user:
             response_data = {'success': True, 'message': 'Login successful'}
             status_code = 200
         else:
@@ -23,16 +41,13 @@ def login():
             status_code = 401
 
         response = jsonify(response_data)
-        response.headers['Allow'] = 'POST'  # Set Allow header for POST method
+        response.headers['Allow'] = 'POST'
         return make_response(response, status_code)
     else:
-        # Handle other methods (e.g., if someone tries a different method for /login)
         response_data = {'message': 'Method Not Allowed'}
         response = jsonify(response_data)
-        response.headers['Allow'] = 'POST'  # Set Allow header for POST method
+        response.headers['Allow'] = 'POST'
         return make_response(response, 405)
 
-
 if __name__ == '__main__':
-    print("Running")
-    app.run(debug=True, port=5000)  # Run the app
+    app.run(debug=True, port=5000)
