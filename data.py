@@ -11,14 +11,13 @@ CORS(app)  # Enable CORS for all routes or specify origins with CORS(app, origin
 # first get airports nearby your location
 def origin(lat, lng):
     origin_params = {
-        'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
+        'api_key': '09091728-2089-427d-b5f2-c0db3901669a',
         'lat': lat,
         'lng': lng,
         'distance': '50'
     }
     origin_url = 'https://airlabs.co/api/v9/nearby'
     origin_response = requests.get(origin_url, params=origin_params)
-    origin_airport = []
     if origin_response.status_code == 200:
         origin_data = origin_response.json()
         airports = origin_data.get('response', {}).get('airports', [])
@@ -35,7 +34,7 @@ def origin(lat, lng):
 # get destination airports
 def des(lat, lng):
     des_params = {
-        'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
+        'api_key': '09091728-2089-427d-b5f2-c0db3901669a',
         'lat': lat,
         'lng': lng,
         'distance': '50'
@@ -58,7 +57,7 @@ def des(lat, lng):
 
 
 airline_params = {
-    'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
+    'api_key': '09091728-2089-427d-b5f2-c0db3901669a',
     'country_code': 'US'
 
 }
@@ -89,7 +88,7 @@ def get_routes(origin_airport, des_airport, airlines):
     times = {}
     for i in range(5):
         route_params = {
-            'api_key': '4c934e67-5e04-4d19-953e-eac352d72f50',
+            'api_key': '09091728-2089-427d-b5f2-c0db3901669a',
             'dep_iata': origin_airport.get('iata_code'),
             'dep_icao': origin_airport.get('icao_code'),
             'arr_iata': des_airport.get("iata_code"),
@@ -118,17 +117,14 @@ def get_coordinates():
     data = request.get_json()
     lat = data['lat']
     lng = data['lng']
+    print(lng)
+    print(lat)
     origin_airport = origin(lat, lng)
     location = geocoder.osm(data['address'])
     lat, long = location.lat, location.lng
     des_airport = des(lat, long)
     airlines = get_airlines()
     info = get_routes(origin_airport, des_airport, airlines)
-    print(info.get('American Airlines', {}))
-    print(info.get('Southwest Airlines', {}))
-    print(info.get('Spirit Airlines', {}))
-    print(info.get('Delta Air Lines', {}))
-    print(info.get('United Airlines', {}))
     return jsonify({
         'origin_airport': origin_airport,
         'des_airport': des_airport,
