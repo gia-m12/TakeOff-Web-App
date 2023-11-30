@@ -32,7 +32,7 @@ def login():
         query = "SELECT * FROM user_accounts WHERE username = :uname AND password_hash = :hashed_pwd"
         oracle_cursor.execute(query, uname=username, hashed_pwd=password_hash)
         user = oracle_cursor.fetchone()
-
+        print(user)
         if user:
             response_data = {'success': True, 'message': 'Login successful'}
             status_code = 200
