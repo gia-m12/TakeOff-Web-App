@@ -72,7 +72,7 @@ body {
     margin: 10% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 40%; /* Adjust the width as desired */
+    width: 40%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -87,11 +87,18 @@ body {
 }
 
 #origin-airport-name,
-#destination-airport-name {
-    font-weight: bold;
-    color: #007bff; 
+#destination-airport-name,
+#origin-airport-iata,
+#destination-airport-iata {
+    display: inline;
+    margin: 10px;
 }
 
+#origin-airport-name,
+#destination-airport-name {
+    font-weight: bold;
+    color: #007bff;
+}
 
 .close:hover,
 .close:focus {
