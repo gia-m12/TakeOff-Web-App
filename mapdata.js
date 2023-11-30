@@ -1610,5 +1610,12 @@ function updateMap(orig, dest) {
   dest_display.lng = dest.lng;
   dest_display.hide = "no";
 
+  
   simplemaps_worldmap.refresh();
+
+  $('#map').on('click', function () {
+    $('#modal-origin-airport-name').text(orig.name);
+    $('#modal-destination-airport-name').text(dest.name);
+    $('#airportInfoModal').modal('show');
+  });
 }

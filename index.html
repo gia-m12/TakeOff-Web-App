@@ -23,9 +23,21 @@
     </div>
 
     <div id="map"></div>
-    <div id="airport-info">
-        <p>Origin Airport: <span id="origin-airport-name"></span></p>
-        <p>Destination Airport: <span id="destination-airport-name"></span></p>
+    <div class="modal fade" id="airportInfoModal" tabindex="-1" role="dialog" aria-labelledby="airportInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="airportInfoModalLabel">Flight Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Origin: <span id="origin-airport-name"></span></p>
+                    <p>Destination: <span id="destination-airport-name"></span></p>
+                </div>
+            </div>
+        </div>
     </div>
     
     <div class="user-destination">
