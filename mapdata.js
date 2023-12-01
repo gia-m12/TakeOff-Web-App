@@ -1610,5 +1610,6 @@ function updateMap(orig, dest) {
   dest_display.lng = dest.lng;
   dest_display.hide = "no";
 
+  
   simplemaps_worldmap.refresh();
 }

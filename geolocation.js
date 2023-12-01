@@ -69,7 +69,33 @@ function updateAirportInfo(data) {
     if (data.origin_airport && data.des_airport) {
         document.getElementById('origin-airport-name').innerText = data.origin_airport.name;
         document.getElementById('destination-airport-name').innerText = data.des_airport.name;
+        document.getElementById('origin-airport-iata').innerText = data.origin_airport.iata_code
+        document.getElementById('destination-airport-iata').innerText = data.des_airport.iata_code;
+
 
         updateMap(data.origin_airport, data.des_airport); // From mapdata.js
+        displayModal(data.origin_airport, data.des_airport, data);
     }
 }
+
+function displayModal(orig, dest, data){
+    $('#map').on('click', function () {
+      $('#modal-origin-airport-name').text(orig.name);
+      $('#modal-destination-airport-name').text(dest.name);
+      $('#origin-airport-iata').text(`(${orig.iata_code})`);
+      $('#destination-airport-iata').text(`(${dest.iata_code})`);
+  
+      displayAirlineInfo('aa', data.aa);
+      displayAirlineInfo('sw', data.sw);
+      displayAirlineInfo('sp', data.sp);
+      displayAirlineInfo('da', data.da);
+      displayAirlineInfo('ua', data.ua);
+
+      $('#airportInfoModal').modal('show');
+    });
+  }
+  
+  function displayAirlineInfo(airlineId, info) {
+    $(`#${airlineId}-day`).text(info[0]);
+    $(`#${airlineId}-duration`).text(info[1]);
+  }
