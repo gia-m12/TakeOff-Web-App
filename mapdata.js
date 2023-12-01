@@ -1613,13 +1613,3 @@ function updateMap(orig, dest) {
   
   simplemaps_worldmap.refresh();
 }
-
-function displayModal(orig, dest){
-  $('#map').on('click', function () {
-    $('#modal-origin-airport-name').text(orig.name);
-    $('#modal-destination-airport-name').text(dest.name);
-    $('#origin-airport-iata').text(`(${orig.iata_code})`);
-    $('#destination-airport-iata').text(`(${dest.iata_code})`);
-    $('#airportInfoModal').modal('show');
-  });
-}
