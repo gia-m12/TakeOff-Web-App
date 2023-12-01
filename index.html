@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="mapdata.js"></script>
+    <script src="worldmap.js"></script>
+    <script src="geolocation.js"></script>
+    <script src="login.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <h5>Take Off</h5>
+        <div id="login-section">
+            <h3 onclick="openModal('loginModal')"><a href="#">Login</a></h3>
+            <h3 onclick="openModal('signupModal')"><a href="#">Sign Up</a></h3>
+        </div>
+    </div>
+
+    <div id="map"></div>
+    <div class="modal fade" id="airportInfoModal" tabindex="-1" role="dialog" aria-labelledby="airportInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="airportInfoModalLabel">Flight Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Origin: <span id="origin-airport-name"></span><span id="origin-airport-iata"></span></p>
+                    <p>Destination: <span id="destination-airport-name"></span><span id="destination-airport-iata"></span></p>
+                    <div id="airline-info">
+                        <div id="aa-info" class="airline-info">
+                            <h6>American Airlines:</h6>
+                            <p>Day: <span id="aa-day"></span></p>
+                            <p>Duration: <span id="aa-duration"></span> minutes</p>
+                        </div>
+
+                        <div id="sw-info" class="airline-info">
+                            <h6>Southwest Airlines:</h6>
+                            <p>Day: <span id="sw-day"></span></p>
+                            <p>Duration: <span id="sw-duration"></span> minutes</p>
+                        </div>
+                        
+                        <div id="sp-info" class="airline-info">
+                            <h6>Spirit Airlines:</h6>
+                            <p>Day: <span id="sp-day"></span></p>
+                            <p>Duration: <span id="sp-duration"></span> minutes</p>
+                        </div>
+                        
+                        <div id="da-info" class="airline-info">
+                            <h6>Delta Airlines:</h6>
+                            <p>Day: <span id="da-day"></span></p>
+                            <p>Duration: <span id="da-duration"></span> minutes</p>
+                        </div>
+                        
+                        <div id="ua-info" class="airline-info">
+                            <h6>United Airlines:</h6>
+                            <p>Day: <span id="ua-day"></span></p>
+                            <p>Duration: <span id="ua-duration"></span> minutes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="user-destination">
+        <label for="user-destination-input" class="mr-2">Destination:</label>
+        <input type="text" id="user-destination-input" class="form-control mr-2">
+        <button onclick="getUserDestination()" class="btn btn-primary">Go</button>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h4 class="mb-4">Login</h4>
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="text" id="username" class="form-control" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" class="form-control" placeholder="Password" required>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="validateLogin()">Submit</button>
+                <p id="login-error" style="color: red;"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signupModal')">&times;</span>
+            <h4 class="mb-4">Sign Up</h4>
+            <form id="signupForm">
+                <div class="form-group">
+                    <input type="text" id="newUsername" class="form-control" placeholder="New Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="newPassword" class="form-control" placeholder="New Password" required>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="validateSignup()">Submit</button>
+                <p id="signup-error" style="color: red;"></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
